@@ -9,12 +9,6 @@ node {
     npmVersion = "5.6.0"
 }
 
-// Declare a task to install Node.js dependencies
-task npmInstall(type: NpmTask) {
-    // Install npm dependencies
-    args = ['install']
-}
-
 // Declare a task to run npm tests
 task npm_test(type: NpmTask) {
     // Run npm tests
@@ -52,4 +46,3 @@ task zip(type: Zip) {
 // Declare task dependencies
 assemble.dependsOn npm_build
 npm_build.dependsOn npm_test
-npm_test.dependsOn npmInstall

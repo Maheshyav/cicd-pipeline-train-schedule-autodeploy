@@ -1,49 +1,35 @@
 plugins {
-    // Update the NodeJS plugin version to the latest compatible version
-    id "com.moowork.node" version "1.2.0"
+  //inlude the nodeJS plugin to execute nodejs and npm tasks
+  id "com.moowork.node" version "1.2.0"
 }
 
 node {
-    // Specify Node.js and npm versions
-    download = true
-    version = "9.11.1"
-    npmVersion = "5.6.0"
+	download = true
+	version = "9.11.1"
+	npmVersion = "5.6.0"
 }
 
-// Declare a task to run npm tests
-task npm_test(type: NpmTask) {
-    // Run npm tests
-    args = ['test']
-}
+//declare a build task
+task build
 
-// Declare a task to build the Node.js app
-task npm_build(type: NpmTask) {
-    // Run npm build
-    args = ['build']
-}
-
-// Declare the 'assemble' task
-task assemble {
-    // Task configuration, if needed
-    // For example, you can include compile, test, and any other necessary tasks as dependencies of assemble
-    dependsOn npm_build
-}
-
-// Declare a task to create a zip of the app
+//declare a task to create a zip of the app
 task zip(type: Zip) {
-    from ('.') {
-        include "*"
-        include "bin/**"
-        include "data/**"
-        include "node_modules/**"
-        include "public/**"
-        include "routes/**"
-        include "views/**"
-    }
-    destinationDir(file("dist"))
-    baseName "trainSchedule"
+	from ('.') {
+		include "*"
+		include "bin/**"
+		include "data/**"
+		include "node_modules/**"
+		include "public/**"
+		include "routes/**"
+		include "views/**"
+	}
+	destinationDir(file("dist"))
+	baseName "trainSchedule"
 }
 
-// Declare task dependencies
-assemble.dependsOn npm_test
+//declare task dependencies
+build.dependsOn zip
+zip.dependsOn npm_build
 npm_build.dependsOn npm_test
+npm_test.dependsOn npmInstall
+npm_build.dependsOn npmInstall 

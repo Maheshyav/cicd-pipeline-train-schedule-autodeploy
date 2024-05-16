@@ -1,9 +1,10 @@
 plugins {
-    // Include the NodeJS plugin to execute Node.js and npm tasks
-    id "com.moowork.node" version "1.2.0"
+    // Update the NodeJS plugin version to the latest compatible version
+    id "com.moowork.node" version "2.0.4"
 }
 
 node {
+    // Specify Node.js and npm versions
     download = true
     version = "9.11.1"
     npmVersion = "5.6.0"
@@ -25,7 +26,7 @@ task npm_build(type: NpmTask) {
 task assemble {
     // Task configuration, if needed
     // For example, you can include compile, test, and any other necessary tasks as dependencies of assemble
-    dependsOn('npm_build')
+    dependsOn npm_build
 }
 
 // Declare a task to create a zip of the app
@@ -44,5 +45,5 @@ task zip(type: Zip) {
 }
 
 // Declare task dependencies
-assemble.dependsOn npm_build
+assemble.dependsOn npm_test
 npm_build.dependsOn npm_test
